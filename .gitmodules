@@ -1,0 +1,4 @@
+[submodule "fastzero-madr"]
+	path = fastzero-madr
+	url = https://github.com/clcosta/fastzero-madr.git
+
