@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment # Change ReplicaSet kind to Deployment
+metadata:
+  name: madr
+  labels:
+    app: madr
+spec:
+  selector:
+    matchLabels:
+      app: madr
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: madr
+    spec:
+      containers:
+        - name: madr
+          image: clcostaf/madr:v2
