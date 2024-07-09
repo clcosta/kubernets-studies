@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: madr-service-np # node port
+spec:
+  selector:
+    app: madr
+  type: NodePort
+  ports:
+    - name: madr-service-np
+      protocol: TCP
+      port: 80 # Internal port
+      targetPort: 8000 # Container (app) port
+      nodePort: 30001 # Node port

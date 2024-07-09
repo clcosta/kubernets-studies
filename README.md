@@ -32,7 +32,7 @@ kubectl rollout history deployment madr
 kubectl rollout undo deployment madr
 ```
 
-Or  
+Or
 
 ```bash
 kubectl rollout undo deployment madr --to-revision=1
@@ -46,8 +46,64 @@ The same command apply are used to **_replicasets_**, **_deployments_**, **_serv
 1. Cluster
 2. Node
 3. Pod
-4. Container  
+4. Container
 ---
 1. Deployment
 2. ReplicaSet
 3. Pod
+
+
+### Proxy
+
+- Create a proxy to api
+
+```bash
+kubectl proxy --port=8080
+```
+
+#### Acess the service using proxy
+
+```bash
+curl localhost:8080/api/v1/namespaces/:namespace/services/:service | jq
+```
+  - namespace: default
+  - service: madr-service
+
+### Services
+
+### ClusterIp
+
+Will create a simple service. Expose a internal IP to cluster.
+
+Necessary port-forward to access the service.
+
+```bash
+kubectl port-forward service/madr-service 8080:8000
+```
+
+#### Node Port
+**Constraint**
+- 30000 > {Node Port} < 32767
+
+Will open the port in all nodes
+
+```
+Node Port: 3001
+---
+Node 1 -> 30001
+Node 2 -> 30001
+Node 3 -> 30001
+```
+
+Use case:<br>
+
+Access the port 30001 from inside node. Example: Node 1 acess Node2:30001. Bassically, the node port is open in all nodes and redirect to the service.
+
+#### Load Balancer
+Will create a Load Balancer and give a public IP to access the service.
+
+**Only works in cloud providers**
+
+Use Case:<br>
+
+Expose any application to the internet in a public IP.
