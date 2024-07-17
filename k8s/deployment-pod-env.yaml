@@ -8,7 +8,7 @@ spec:
   selector:
     matchLabels:
       app: madr
-  replicas: 3
+  replicas: 1
   template:
     metadata:
       labels:
@@ -19,6 +19,12 @@ spec:
           image: clcostaf/madr:v4
           env: # Add env section
             - name: AUTH_SECRET_KEY
-              value: "MY-SUPER-SECRET-KEY"
+              valueFrom:
+                configMapKeyRef:
+                  name: madr-env
+                  key: AUTH_SECRET_KEY
             - name: DATABASE_URL
-              value: "sqlite:///db.db"
+              valueFrom:
+                configMapKeyRef:
+                  name: madr-env
+                  key: DATABASE_URL

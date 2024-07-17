@@ -131,3 +131,17 @@ kubectl 'exec' '-it' :POD_NAME '--namespace' 'default' '--container' :CONTAINER_
   - POD_NAME: madr-597d774c84-2p2x4
     **In this case madr is the name of deployment. The rest it's the replicaset and pod name.**
   - CONTAINER_NAME: madr
+
+#### ConfigMap
+
+The config map is a way to store the environment variables in a single place. 
+
+The config map change the enviroment variables in the deployment.
+
+```yaml
+- name: DATABASE_URL
+  valueFrom:
+    configMapKeyRef:
+      name: madr-env
+      key: DATABASE_URL
+```

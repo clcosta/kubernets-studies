@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: madr-env
+data:
+  AUTH_SECRET_KEY: "MY-SUPER-SECRET-KEY"
+  DATABASE_URL: "sqlite:///db.db"
