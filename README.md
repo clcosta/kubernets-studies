@@ -145,3 +145,11 @@ The config map change the enviroment variables in the deployment.
       name: madr-env
       key: DATABASE_URL
 ```
+
+Or can use the **envFrom** to get all variables from configMap.
+
+```yaml
+envFrom:
+  - configMapRef:
+      name: madr-env
+```

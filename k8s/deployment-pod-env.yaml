@@ -17,14 +17,6 @@ spec:
       containers:
         - name: madr
           image: clcostaf/madr:v4
-          env: # Add env section
-            - name: AUTH_SECRET_KEY
-              valueFrom:
-                configMapKeyRef:
-                  name: madr-env
-                  key: AUTH_SECRET_KEY
-            - name: DATABASE_URL
-              valueFrom:
-                configMapKeyRef:
-                  name: madr-env
-                  key: DATABASE_URL
+          envFrom:
+            - configMapRef:
+                name: madr-env
