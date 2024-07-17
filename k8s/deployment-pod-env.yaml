@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment # Change ReplicaSet kind to Deployment
+metadata:
+  name: madr
+  labels:
+    app: madr
+spec:
+  selector:
+    matchLabels:
+      app: madr
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: madr
+    spec:
+      containers:
+        - name: madr
+          image: clcostaf/madr:v4
+          env: # Add env section
+            - name: AUTH_SECRET_KEY
+              value: "MY-SUPER-SECRET-KEY"
+            - name: DATABASE_URL
+              value: "sqlite:///db.db"

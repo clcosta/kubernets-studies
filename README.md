@@ -107,3 +107,27 @@ Will create a Load Balancer and give a public IP to access the service.
 Use Case:<br>
 
 Expose any application to the internet in a public IP.
+
+
+### Environment Variables
+
+#### Disclaimer
+
+In the **fastzero-madr** application. The variabels we can use are:
+
+- DATABASE_URL : String
+- AUTH_SECRET_KEY: String
+- AUTH_ALGORITHM: String = HS256
+- AUTH_EXPIRES_IN_MINUTES: Int = 60
+
+In this case, we only variables i'll change are **DATABASE_URL** and **AUTH_SECRET_KEY**.
+
+#### Interactive terminal
+
+```bash
+kubectl 'exec' '-it' :POD_NAME '--namespace' 'default' '--container' :CONTAINER_NAME '--' 'bash'
+```
+
+  - POD_NAME: madr-597d774c84-2p2x4
+    **In this case madr is the name of deployment. The rest it's the replicaset and pod name.**
+  - CONTAINER_NAME: madr
