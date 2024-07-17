@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment # Change ReplicaSet kind to Deployment
+metadata:
+  name: madr
+  labels:
+    app: madr
+spec:
+  selector:
+    matchLabels:
+      app: madr
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: madr
+    spec:
+      containers:
+      - name: madr
+        image: clcostaf/madr:v4
+        envFrom:
+        - configMapRef:
+            name: madr-env
+        volumeMounts:
+        - name: nginx-conf
+          mountPath: /app/nginx
+
+      volumes:
+      - name: nginx-conf
+        configMap:
+          name: nginx-config
+          items:
+          - key: nginx.conf
+            path: nginx.conf

@@ -69,9 +69,30 @@ curl localhost:8080/api/v1/namespaces/:namespace/services/:service | jq
   - namespace: default
   - service: madr-service
 
+### Interactive terminal
+
+```bash
+kubectl exec -it :POD_NAME -- bash
+```
+
+  - POD_NAME: madr-597d774c84-2p2x4
+    **In this case madr is the name of deployment. The rest it's the replicaset and pod name.**
+
+### Logs
+
+```bash
+kubectl logs :POD_NAME
+```
+
+### Port Forward
+
+```bash
+kubectl port-forward :POD_NAME 8080:8000
+```
+
 ### Services
 
-### ClusterIp
+#### ClusterIp
 
 Will create a simple service. Expose a internal IP to cluster.
 
@@ -122,16 +143,6 @@ In the **fastzero-madr** application. The variabels we can use are:
 
 In this case, we only variables i'll change are **DATABASE_URL** and **AUTH_SECRET_KEY**.
 
-#### Interactive terminal
-
-```bash
-kubectl 'exec' '-it' :POD_NAME '--namespace' 'default' '--container' :CONTAINER_NAME '--' 'bash'
-```
-
-  - POD_NAME: madr-597d774c84-2p2x4
-    **In this case madr is the name of deployment. The rest it's the replicaset and pod name.**
-  - CONTAINER_NAME: madr
-
 #### ConfigMap
 
 The config map is a way to store the environment variables in a single place. 
@@ -152,4 +163,48 @@ Or can use the **envFrom** to get all variables from configMap.
 envFrom:
   - configMapRef:
       name: madr-env
+```
+
+### Volume
+
+#### Disclaimer
+
+The example i'll use it's for Nginx. But in the submodule **fastzero-madr** doesn't use the nginx. The example it's only to show how to use the volume.
+
+#### ConfigMap as file
+
+**ConfigMap: ./k8s/configmap-nginx.yaml**
+
+Set volume in deployment
+
+```yaml
+containers:
+- name: madr
+  ...
+  volumeMounts:
+  - name: nginx-conf
+    mountPath: /app/nginx
+
+volumes:
+- name: nginx-conf
+  configMap:
+    name: nginx-config
+    items:
+    - key: nginx.conf
+      path: nginx.conf
+``` 
+
+Apply and check the configMap
+
+```bash
+kubectl apply -f ./k8s/configmap-nginx.yaml
+
+kubectl apply -f ./k8s/deployment-pod-nginx.yaml
+```
+
+Inside of the container:
+
+```bash
+$ ls /app/nginx
+nginx.conf
 ```
